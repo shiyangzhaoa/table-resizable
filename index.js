@@ -22,9 +22,11 @@ class tableResizable {
     // cols
     this.store.HColumns = Array.from(header.querySelectorAll('col')).map(v => ({
       el: v,
+      isChange: false,
     }));
     this.store.BColumns = Array.from(body.querySelectorAll('col')).map(v => ({
       el: v,
+      isChange: false,
     }));
   };
 
@@ -118,8 +120,11 @@ class tableResizable {
             const index = +target.dataset.index;
             HColgroup.children[index].width = columnWidth;
 
+            if (index !== this.store.HColumns.length - 1) {
+              this.store.HColumns[index].isChange = true;
+            }
             const deltaLeft = event.clientX - this.store.startMouseLeft;
-            const changeColumns = this.store.HColumns.filter((v, i) => i > index && +v.el.width > 30);
+            const changeColumns = this.store.HColumns.filter((v, i) => i > index && !v.isChange && +v.el.width > 30);
             changeColumns.forEach(item => {
               item.el.width = +item.el.width - deltaLeft / changeColumns.length;
             });
