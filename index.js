@@ -47,20 +47,24 @@ class tableResizable {
       return newDom;
     }, Bcolgroup);
     const HColgroup = Bcolgroup.cloneNode(true);
-    THeader.appendChild(HColgroup);
 
     //不管是一个table还是两个，都把header合body提出来
     if (this._tables.length === 1) {
       const [ , tbody ] = Array.from(THeader.children);
       tbody.remove();
+      var HFirstChild = THeader.firstChild;
+      THeader.insertBefore(HColgroup, HFirstChild);
+      
       TBody = THeader.cloneNode();
       TBody.appendChild(Bcolgroup);
       TBody.appendChild(tbody);
       this._el.appendChild(TBody);
     } else {
+      var HFirstChild = THeader.firstChild;
+      THeader.insertBefore(HColgroup, HFirstChild);
       [ , TBody ] = this._tables;
-      var theFirstChild = TBody.firstChild;
-      TBody.insertBefore(Bcolgroup, theFirstChild);
+      var BFirstChild = TBody.firstChild;
+      TBody.insertBefore(Bcolgroup, BFirstChild);
     }
 
     //拖动时的占位线
@@ -119,7 +123,6 @@ class tableResizable {
             const columnWidth = finalLeft - startColumnLeft;
             const index = +target.dataset.index;
             HColgroup.children[index].width = columnWidth;
-
             if (index !== this.store.HColumns.length - 1) {
               this.store.HColumns[index].isChange = true;
             }
@@ -128,7 +131,7 @@ class tableResizable {
             changeColumns.forEach(item => {
               item.el.width = +item.el.width - deltaLeft / changeColumns.length;
             });
-
+            
             this.store.BColumns.forEach((item, i) => {
               item.el.width = this.store.HColumns[i].el.width;
             });
