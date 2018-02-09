@@ -94,7 +94,7 @@ class tableResizable {
         const tableEle = THeader;
         const tableLeft = tableEle.getBoundingClientRect().left;
         const columnRect = target.getBoundingClientRect();
-        const minLeft = columnRect.left - tableLeft + 30;
+        const minLeft = columnRect.left - tableLeft + this.store.miniWidth;
         target.classList.add('noclick');
 
         this.store.startMouseLeft = evt.clientX;
