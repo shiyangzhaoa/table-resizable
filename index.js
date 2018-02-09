@@ -172,7 +172,7 @@ class tableResizable {
     if (!this.store.dragging) {
       const rect = target.getBoundingClientRect();
       const bodyStyle = document.body.style;
-      if (rect.width > 12 && rect.right - event.pageX < 8) {
+      if (rect.width > 12 && rect.right - evt.pageX < 8) {
         bodyStyle.cursor = 'col-resize';
         target.style.cursor = 'col-resize';
         this.store.draggingColumn = target;
