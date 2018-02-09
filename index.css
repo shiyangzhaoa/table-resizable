@@ -1,0 +1,41 @@
+body {
+  height: 100vh;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.table-resizable {
+  position: relative;
+}
+
+body.table-resizing {
+  cursor: col-resize !important;
+  user-select: none;
+}
+
+table {
+  margin: 0 !important;
+  table-layout: fixed;
+}
+
+table td {
+  word-break: break-all;
+}
+
+table th {
+  position: relative;
+  user-select: none;
+}
+
+.resizable-hold {
+  position: absolute;
+  left: 200px;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  border-left: 1px solid rgb(223, 230, 236);
+  z-index: 10;
+  display: none;
+}
