@@ -22,11 +22,9 @@ class tableResizable {
     // cols
     this.store.HColumns = Array.from(header.querySelectorAll('col')).map(v => ({
       el: v,
-      isChange: false,
     }));
     this.store.BColumns = Array.from(body.querySelectorAll('col')).map(v => ({
       el: v,
-      isChange: false,
     }));
   };
 
@@ -59,7 +57,8 @@ class tableResizable {
       this._el.appendChild(TBody);
     } else {
       [ , TBody ] = this._tables;
-      TBody.appendChild(Bcolgroup);
+      var theFirstChild = TBody.firstChild;
+      TBody.insertBefore(Bcolgroup, theFirstChild);
     }
 
     //拖动时的占位线
@@ -119,11 +118,8 @@ class tableResizable {
             const index = +target.dataset.index;
             HColgroup.children[index].width = columnWidth;
 
-            if (index !== this.store.HColumns.length - 1) {
-              this.store.HColumns[index].isChange = true;
-            }
             const deltaLeft = event.clientX - this.store.startMouseLeft;
-            const changeColumns = this.store.HColumns.filter(v => !v.isChange && +v.el.width > 30);
+            const changeColumns = this.store.HColumns.filter((v, i) => i > index && +v.el.width > 30);
             changeColumns.forEach(item => {
               item.el.width = +item.el.width - deltaLeft / changeColumns.length;
             });
